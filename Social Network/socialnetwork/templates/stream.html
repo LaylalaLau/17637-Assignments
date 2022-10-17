@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block link %}
+    <div>
+        <a href="{% url 'profile' %}" id="id_nav_profile">
+            {{ current_user }}
+        </a>
+        <br>
+        <a href="{% url 'global_stream' %}" id="id_nav_global_stream">
+            Global
+        </a>
+        <br>
+        <a href="{% url 'follower_stream' %}" id="id_nav_follower_stream">
+            Follower
+        </a>
+        <br>
+        <a href="{% url 'logout' %}" id="id_nav_logout"> 
+            Logout
+        </a>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+
+    <h2 id="id_page_name">{{ page_name }}</h2>
+
+    {% comment %}
+    <form method="post" action="{% url 'global_stream' %}">
+        <label> New Post: </label>
+        <input id="id_post_input_text" name="text">
+        <button id="id_post_button">Submit</button>
+        {% csrf_token %}
+    </form>
+    {% endcomment %}
+
+    {% if page_name == "Global Stream" %}
+        <label class="label"> New Post: </label>
+        <input class="input" id="id_post_input_text" type="text">
+        <button class="button" id="id_post_button" type="submit" onclick="addPost()">Submit</button>
+    {% endif %}
+
+    <h5> {{message}} </h5>
+
+    <div id="my-posts-go-here"></div>
+    <script>
+        {% comment %} loadPosts() <= or window.onload=loadPosts {% endcomment %}
+        // Save this user's username so our JS deleteItem() function can determine
+        // whether show delete buttons
+        const myUserName = "{{ request.user.username }}"
+
+        // If you wish to use the template language's URL reverse function, you can
+        // do it here in the HTML file, but not in the JS file
+        const addItemURL = "{% url 'add-comment' %}"
+        const addPostURL = "{% url 'add-post' %}"
+
+        // Call getList() as soon as page is finished loading to display the todolist
+        window.onload = getPosts("{{ page_name }}");
+
+        // ... also call getList every 5 seconds hereafter to update the list
+        // window.setInterval(getPosts("{{ page_name }}"), 5000);
+        window.setInterval( function() { getPosts("{{ page_name }}"); }, 5000 );
+
+        function addPost() {
+            let itemTextElement = document.getElementById('id_post_input_text')
+            let itemTextValue   = itemTextElement.value
+
+            // Clear input box and old error message (if any)
+            itemTextElement.value = ''
+            displayError('')
+
+            let xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState != 4) return
+                updatePage(xhr)
+            }
+
+            xhr.open("POST", addPostURL, true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.send("text="+itemTextValue+"&csrfmiddlewaretoken="+getCSRFToken());
+        }
+    </script>
+
+    {% for error in form.non_field_errors %}
+        <p class="errorlist">
+            {{ error }}
+        </p>
+    {% endfor %}
+
+    <div id="errorlist"></div>
+
+{% endblock %}

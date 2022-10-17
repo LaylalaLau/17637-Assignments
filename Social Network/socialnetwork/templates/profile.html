@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block link %}
+    <div>
+        <a href="{% url 'profile' %}" id="id_nav_profile">
+            {{ current_user }}
+        </a>
+        <a href="{% url 'global_stream' %}" id="id_nav_global_stream">
+            Global
+        </a>
+        <br>
+        <a href="{% url 'follower_stream' %}" id="id_nav_follower_stream">
+            Follower
+        </a>
+        <br>
+        <a href="{% url 'logout' %}" id="id_nav_logout"> 
+            Logout
+        </a>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+
+    <h2 id="id_page_name">{{ profile_name }} Profile</h2>
+
+    {% if not profile.picture %}
+        <img src='{% static "images/leader.jpg" %}' id="id_user_picture" width="30%" height:auto>
+    {% else %}
+        <img src="{% url 'photo' profile.user.id %}" id="id_user_picture" alt="" width="30%" height:auto>
+    {% endif %}
+
+
+
+    <form method="post" action="{% url 'profile' %}" enctype="multipart/form-data">
+        <table>
+            {% comment %}
+            {% for field in form.visible_fields %}
+                <tr>
+                    <td>{{field.label_tag}}</td>
+                    <td>{{field}}</td>
+                    <td class="errorlist">
+                        {% for error in field.errors %} {{error}} {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+            {% endcomment %}
+            {{form}}
+        </table>
+        {% csrf_token %}
+        <button id="id_update_profile_button">Submit</button>
+    </form>
+
+    {% for error in form.non_field_errors %}
+        <p class="errorlist">
+            {{ error }}
+        </p>
+    {% endfor %}
+
+    <p>You are following:</p><br>
+    <ul>
+        {% for u in profile.following.all %}
+            <li>
+                <a href="{% url 'other_profile' u.id %}" id="id_profile_link_{{u}}" name="other_user">{{u.first_name}} {{u.last_name}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block link %}
+    <div>
+        <a href="{% url 'profile' %}" id="id_nav_profile">
+            {{ current_user }}
+        </a>
+        <a href="{% url 'global_stream' %}" id="id_nav_global_stream">
+            Global
+        </a>
+        <br>
+        <a href="{% url 'follower_stream' %}" id="id_nav_follower_stream">
+            Follower
+        </a>
+        <br>
+        <a href="{% url 'logout' %}" id="id_nav_logout"> 
+            Logout
+        </a>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+
+    <h2 id="id_page_name">Profile Page for {{profile.user.first_name}} {{profile.user.last_name}}</h2>
+
+    {% if not profile.picture %}
+        <img src="{% static 'images/leader.jpg' %}" id="id_user_picture" width="30%" height:auto>
+    {% else %}
+        <img src="{% url 'photo' profile.user.id %}" id="id_user_picture" alt="" width="30%" height:auto>
+    {% endif %}
+
+    <textarea readonly id="id_user_bio" rows="4" cols="60">
+        {{profile.bio}}
+    </textarea>
+
+    {% if profile.user in request.user.profile.following.all %}
+        <form action="{% url 'unfollow' profile.user.id %}" method="POST">
+            <button id="id_unfollow">Unfollow</button>
+            {% csrf_token %}
+        </form>
+    {% else %}
+        <form action="{% url 'follow' profile.user.id %}" method="POST">
+            <button id="id_follow">Follow</button>
+            {% csrf_token %}
+        </form>
+    {% endif %}
+
+{% endblock %}

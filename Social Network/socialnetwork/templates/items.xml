@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE items [
+    <!ELEMENT items (item*)>
+    <!ELEMENT item (id,text,ipAddr,user)>
+    <!ELEMENT id (#PCDATA)>
+    <!ELEMENT text (#PCDATA)>
+    <!ELEMENT ipAddr (#PCDATA)>
+    <!ELEMENT user (#PCDATA)>
+]>
+
+<items>
+    {% for item in items %}
+        <item>
+            <id>{{item.id}}</id>
+            <text>{{item.text}}</text>
+            <ipAddr>{{item.ip_addr}}</ipAddr>
+            <user>{{ item.user.username }}</user>
+        </item>
+    {% endfor %}
+</items>
