@@ -1,0 +1,119 @@
+.big-heading {
+    font-size: xx-large;
+    font-weight: bold;
+    font-family: sans-serif;
+    text-align: left;
+    padding: 25px 50px;
+    color: white;
+    background-color: rgb(64,119,177);
+}
+
+.link {
+    text-decoration: underline;
+    color: white;
+}
+
+.message {
+    color:blue;
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+    font-family: sans-serif;
+    padding: 25px 50px;
+}
+
+.search-bar {
+    text-align: center;
+    padding: 25px 50px;
+}
+
+.content {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    font-family: sans-serif;
+    font-size: x-large;
+    padding: 25px 50px;
+}
+
+.errorlist {
+    color:red;
+}
+
+.list {
+    padding: 3px;
+}
+
+.list-link {
+    padding: 5px;
+}
+
+.list-link:hover {
+     background-color:lightgray;
+}
+
+.post_profile {
+    font-style: italic;
+}
+
+.post_text {
+
+}
+
+.post_date_time {
+    font-style: italic;
+}
+
+.comment_div {
+    margin-left: 50px;
+}
+
+.comment_profile {
+    font-style: italic;
+}
+
+.comment_text {
+
+}
+
+.comment_date_time {
+    font-style: italic;
+}
+
+th {
+    font-weight: normal;
+    text-align: left;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+button {
+    font-size: x-large;
+    padding: 3px;
+}
+
+input {
+    font-size: x-large;
+}
+
+div, form {
+    padding: 4px;
+}
+
+.navlink {
+    background-color: lightgray;
+}
+
+.letter {
+    padding: 3px;
+    font-family: sans-serif;
+    font-size: x-large;
+
+}
+
+.letter:hover {
+     background-color:lightgray;
+}
